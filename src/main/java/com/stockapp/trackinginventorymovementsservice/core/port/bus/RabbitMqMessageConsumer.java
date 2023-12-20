@@ -46,7 +46,7 @@ public class RabbitMqMessageConsumer implements CommandLineRunner {
                                    Object.class);
 
                     System.out.println("Customer in process:  " + customer);
-                    commonHandler.saveGeneralData(new GeneralData(customer));
+                    commonHandler.saveGeneralData(new GeneralData(customer)).subscribe();
                     commonHandler.saveCustomerData(new CustomerData(customer)).subscribe();
                     return customer;
                 }).subscribe();
@@ -58,7 +58,7 @@ public class RabbitMqMessageConsumer implements CommandLineRunner {
                                     Object.class);
 
                     System.out.println("Product in process:  " + product);
-                    commonHandler.saveGeneralData(new GeneralData(product));
+                    commonHandler.saveGeneralData(new GeneralData(product)).subscribe();
                     commonHandler.saveProductData(new ProductData(product)).subscribe();
                     return product;
                 }).subscribe();
@@ -70,7 +70,7 @@ public class RabbitMqMessageConsumer implements CommandLineRunner {
                                     Object.class);
 
                     System.out.println("Sale in process:  " + sale);
-                    commonHandler.saveGeneralData(new GeneralData(sale));
+                    commonHandler.saveGeneralData(new GeneralData(sale)).subscribe();
                     commonHandler.saveSaleData(new SaleData(sale)).subscribe();
                     return sale;
                 }).subscribe();
@@ -82,7 +82,7 @@ public class RabbitMqMessageConsumer implements CommandLineRunner {
                                     Object.class);
 
                     System.out.println("Error in process:  " + error);
-                    commonHandler.saveGeneralData(new GeneralData(error));
+                    commonHandler.saveGeneralData(new GeneralData(error)).subscribe();
                     commonHandler.saveErrorData(new ErrorData(error)).subscribe();
                     return error;
                 }).subscribe();
