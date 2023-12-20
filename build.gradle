@@ -20,6 +20,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
+
+    implementation 'org.springframework.boot:spring-boot-starter-amqp:3.1.5'
+    implementation 'com.google.code.gson:gson:2.9.1'
+    implementation 'io.projectreactor.rabbitmq:reactor-rabbitmq:1.5.6'
 }
 
 tasks.named('test') {
