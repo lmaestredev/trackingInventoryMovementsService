@@ -19,8 +19,7 @@ public class RabbitMqMessageConsumer implements CommandLineRunner {
     @Autowired
     private Gson gson;
 
-    @Autowired
-    private CommonHandler commonHandler;
+    private final  CommonHandler commonHandler;
 
     //queues
     @Value("${customerQueue}")
@@ -34,6 +33,16 @@ public class RabbitMqMessageConsumer implements CommandLineRunner {
 
     @Value("${errorQueue}")
     private String ERROR_QUEUE;
+
+    @Value("${retailQueue}")
+    private String RETAIL_QUEUE;
+
+    @Value("${whosaleQueue}")
+    private String WHOSALE_QUEUE;
+
+    public RabbitMqMessageConsumer(CommonHandler commonHandler) {
+        this.commonHandler = commonHandler;
+    }
 
     @Override
     public void run(String... args) throws Exception {
@@ -85,6 +94,29 @@ public class RabbitMqMessageConsumer implements CommandLineRunner {
                     commonHandler.saveGeneralData(new GeneralData(error)).subscribe();
                     commonHandler.saveErrorData(new ErrorData(error)).subscribe();
                     return error;
+                }).subscribe();
+
+        receiver.consumeAutoAck(RETAIL_QUEUE)
+                .map(message -> {
+                    Object sale = gson
+                            .fromJson(new String(message.getBody()),
+                                    Object.class);
+
+                    commonHandler.saveGeneralData(new GeneralData(sale)).subscribe();
+                    commonHandler.saveRetailData(new RetailData(sale)).subscribe();
+                    return sale;
+                }).subscribe();
+
+        receiver.consumeAutoAck(WHOSALE_QUEUE)
+                .map(message -> {
+                    Object sale = gson
+                            .fromJson(new String(message.getBody()),
+                                    Object.class);
+
+                    System.out.println("Sale in process:  " + sale);
+                    commonHandler.saveGeneralData(new GeneralData(sale)).subscribe();
+                    commonHandler.saveWhosaleData(new WhosaleData(sale)).subscribe();
+                    return sale;
                 }).subscribe();
     }
 }
