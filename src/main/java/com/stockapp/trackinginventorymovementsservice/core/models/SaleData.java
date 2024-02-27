@@ -10,6 +10,7 @@ public class SaleData {
     private String id;
     private Object data;
 
+
     public SaleData() {
     }
 
